@@ -1234,7 +1234,7 @@
         <div class="hero-content">
             <h2>IAM & Cybersecurity Specialist</h2>
             <p>
-                Securing digital identities and protecting infrastructures with 3.5+ years of experience 
+                Securing digital identities and protecting infrastructures with 4+ years of experience 
                 in Identity and Access Management, ServiceNow, One Identity, and Auth0. Remote expertise 
                 delivering enterprise-grade security solutions.
             </p>
@@ -1355,19 +1355,19 @@
             <div class="cert-card">
                 <div class="cert-icon">🎓</div>
                 <span class="cert-badge">IAM Professional</span>
-                <h3>CIAM</h3>
+                <h3>CIAM®</h3>
                 <p class="cert-issuer">Identity Management Institute</p>
-                <p class="cert-date">Customer Identity and Access Management</p>
-                <div class="cert-id">Credential ID: [Your ID]</div>
+                <p class="cert-date">Certified Identity and Access Manager</p>
+                <div class="cert-id">Credential ID: 1379</div>
             </div>
 
             <div class="cert-card">
                 <div class="cert-icon">🎓</div>
                 <span class="cert-badge">IAM Professional</span>
-                <h3>CIMP</h3>
+                <h3>CIMP®</h3>
                 <p class="cert-issuer">Identity Management Institute</p>
                 <p class="cert-date">Certified Identity Management Professional</p>
-                <div class="cert-id">Credential ID: [Your ID]</div>
+                <div class="cert-id">Credential ID: 13815</div>
             </div>
 
             <div class="cert-card">
@@ -1376,16 +1376,16 @@
                 <h3>CompTIA Security+</h3>
                 <p class="cert-issuer">CompTIA</p>
                 <p class="cert-date">Information Security Fundamentals</p>
-                <div class="cert-id">Credential ID: [Your ID]</div>
+                <div class="cert-id">Credential ID: COMP0010213847621</div>
             </div>
 
             <div class="cert-card">
                 <div class="cert-icon">🔒</div>
                 <span class="cert-badge">Security Operations</span>
-                <h3>SOC Analyst</h3>
-                <p class="cert-issuer">Security Operations Center</p>
+                <h3>CompTIA CySA+ </h3>
+                <p class="cert-issuer">CompTIA</p>
                 <p class="cert-date">Security Monitoring & Incident Response</p>
-                <div class="cert-id">Credential ID: [Your ID]</div>
+                <div class="cert-id">Credential ID: COMP001031234567</div>
             </div>
 
         </div>
@@ -1436,7 +1436,7 @@
     <section id="contact" class="fade-in">
         <h2>Get In Touch</h2>
         <div class="contact-container">
-            <form id="contactForm" novalidate>
+            <form id="contactForm" action="https://formspree.io/f/xkgewjao" method="POST" novalidate>
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" required maxlength="100" autocomplete="name">
@@ -1466,7 +1466,7 @@
             <a href="https://github.com" target="_blank" title="GitHub">💻</a>
             <a href="/cdn-cgi/l/email-protection#4d3422383f6328202c24210d28352c203d2128632e2220" title="Email">📧</a>
         </div>
-        <p>&copy; 2024 Andrei Iacobescu. All rights reserved.</p>
+        <p>&copy; 2025 Andrei Iacobescu. All rights reserved.</p>
     </footer>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
@@ -1526,61 +1526,41 @@
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
         // Form submission handler with security
+        // Form submission handler
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Honeypot check - if filled, it's a bot
+            // Honeypot check
             if (document.querySelector('input[name="website"]').value !== '') {
-                console.log('Bot detected');
                 return false;
             }
             
-            // Get and sanitize form data
-            const name = document.getElementById('name').value.trim();
+            // Basic validation
             const email = document.getElementById('email').value.trim();
-            const company = document.getElementById('company').value.trim();
             const message = document.getElementById('message').value.trim();
             
-            // Validation
-            if (!name || name.length < 2 || name.length > 100) {
-                alert('Please enter a valid name (2-100 characters)');
+            if (!email || !message) {
+                alert('Please fill in all required fields');
                 return false;
             }
             
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('Please enter a valid email address');
-                return false;
-            }
-            
-            if (!message || message.length < 10 || message.length > 2000) {
-                alert('Please enter a message (10-2000 characters)');
-                return false;
-            }
-            
-            // Check for suspicious patterns (basic XSS/injection prevention)
-            const suspiciousPatterns = /<script|javascript:|onerror=|onclick=/i;
-            if (suspiciousPatterns.test(name) || suspiciousPatterns.test(email) || 
-                suspiciousPatterns.test(company) || suspiciousPatterns.test(message)) {
-                alert('Invalid input detected. Please remove special characters.');
-                return false;
-            }
-            
-            const formData = {
-                name: name,
-                email: email,
-                company: company,
-                message: message,
-                timestamp: new Date().toISOString()
-            };
-
-            // TODO: Integrate with backend service (FormSpree, Netlify Forms, EmailJS, etc.)
-            // For now, just show success message
-            alert('Thank you for your message! I will get back to you soon.');
-            
-            // Reset form
-            this.reset();
+            // Submit to FormSpree
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    alert('Thank you for your message! I will get back to you soon.');
+                    this.reset();
+                } else {
+                    alert('Oops! There was a problem submitting your form');
+                }
+            }).catch(error => {
+                alert('Oops! There was a problem submitting your form');
+            });
         });
     });
     </script>
